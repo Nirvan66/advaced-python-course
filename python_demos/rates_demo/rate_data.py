@@ -5,8 +5,10 @@ from typing import Any
 
 def load_rates_from_history(rates_file_path: pathlib.Path) -> list[dict[str, Any]]:
     rates_history: dict[str, dict[str, Any]] = {}
+
     with open(rates_file_path, encoding="UTF-8") as rates_file:
         rates_file_csv = csv.DictReader(rates_file)
+        
         for rate_row in rates_file_csv:
             rate_entry = {"EUR": 1.0}
             for rate_col_name, rate_col_value in rate_row.items():

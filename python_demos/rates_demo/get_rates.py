@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from concurrent.futures import ThreadPoolExecutor
 
 import requests
 
@@ -14,14 +15,22 @@ def queryServer(businessDate: str) -> str:
     formatedBusinessDate = businessDate.strftime(DATE_FORMAT)
     dateUrl = BASE_URL + formatedBusinessDate
     payload = PAYLOAD
-    responseContent = requests.get(dateUrl, params=payload).text
-    return responseContent
+    return requests.get(dateUrl, params=payload).text
 
 
-def get_rates() -> list:
-    startDateStr = input("Enter start date (YYYY-mm-dd):")
+def get_rates(startDateStr: str) -> list[str]:
     startDate = datetime.strptime(startDateStr, DATE_FORMAT).date()
     endDate = startDate + timedelta(LOOKAHEAD_DAYS)
     responseContentList = list(map(lambda x: queryServer(x),
                                    business_days(startDate, endDate)))
+    return responseContentList
+
+
+def get_rates_threaded(startDateStr: str) -> list[str]:
+    startDate = datetime.strptime(startDateStr, DATE_FORMAT).date()
+    endDate = startDate + timedelta(LOOKAHEAD_DAYS)
+    with ThreadPoolExecutor() as excecutor:
+        responseContentList = list(excecutor.map(queryServer,
+                                                 business_days(startDate,
+                                                               endDate)))
     return responseContentList
