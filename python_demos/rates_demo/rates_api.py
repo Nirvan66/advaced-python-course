@@ -1,7 +1,7 @@
 from typing import Any
 from urllib import response
 from flask import Flask, Response, request, abort, jsonify
-from rate_data import load_rates_from_history
+from rates_demo.rate_data import load_rates_from_history
 import pathlib
 
 app = Flask(__name__)
@@ -43,7 +43,7 @@ def getDates(rate_date: str) ->  Response:
                 "rates": country_rates
             }
     else:
-        response_dict = {"Invalid Parameters": "date not found"}
+        response_dict = {"Invalid Parameters": f"no data found for date {rate_date}"}
     
     return jsonify(response_dict)
 
@@ -54,3 +54,6 @@ def start_rates_api() -> None:
 
     rates = load_rates_from_history(rates_file_path)
     app.run()
+
+if __name__=="__main__":
+    start_rates_api()
