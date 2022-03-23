@@ -1,4 +1,7 @@
+""" py time sleep """
+
 import time
-print("Hello, ")
-time.sleep(2)
-print("World")
+
+print("hello, ")
+time.sleep(5)
+print("world")

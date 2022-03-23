@@ -9,10 +9,12 @@ from rates_demo.rates_api import start_rates_api
 
 @contextmanager
 def rates_api_server() -> Generator[None, None, None]:
+    # starting server on a new process
     rates_api_process = mp.Process(target=start_rates_api)
     rates_api_process.start()
 
     while True:
+        # making a test request
         try:
             requests.get("http://127.0.0.1:5000/check")
             break
@@ -20,7 +22,9 @@ def rates_api_server() -> Generator[None, None, None]:
             continue
         except RequestException:
             continue
-
+    
+    # content manager yields controll back to the with
     yield
 
+    # excecute once you jump out of the with block
     rates_api_process.terminate()
