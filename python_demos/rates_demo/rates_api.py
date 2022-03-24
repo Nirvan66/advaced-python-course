@@ -18,6 +18,7 @@ def check() -> Response:
 
 @app.route("/api/<rate_date>")
 def getDates(rate_date: str) ->  Response:
+    """ get rates data from locally loaded csv"""
     rates_by_country = rates.get(rate_date, None)
     response_dict = {"Invalid Parameters": "Ya Nucklehead"}
     if rates_by_country:
