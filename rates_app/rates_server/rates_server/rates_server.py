@@ -1,35 +1,16 @@
 """ rate server module """
 from typing import Optional
-from contextlib import contextmanager
-from collections.abc import Generator
 import sys
 import socket
-
+import json
+import re
 import multiprocessing as mp
 import threading
 from multiprocessing.sharedctypes import Synchronized
-from urllib import response
+
 import requests
-import json
-import re
 import pyodbc
-
-HOST = "127.0.0.1"
-PORT = 5075
-BASE_URL = "http://127.0.0.1:5000/api/"
-
-docker_conn_options = [
-    "DRIVER={ODBC Driver 17 for SQL Server}",
-    "SERVER=localhost,1433",
-    "DATABASE=ratesapp",
-    "UID=sa",
-    "PWD=sqlDbp@ss!",
-]
-
-conn_string = ";".join(docker_conn_options)
-
-REGEX_STING = r"^(?P<command>\w+)\s(?P<date>\d{4}-\d{1,2}-\d{1,2})\s(?P<symbol>\w+)"
-REGEX_COMPILED = re.compile(REGEX_STING)
+from rates_shared.rates_shared import REGEX_STING, conn_string, HOST, PORT, BASE_URL
 
 # Use a multiprocessing shared "Value" object to track the count of
 # connected clients

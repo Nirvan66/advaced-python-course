@@ -21,6 +21,8 @@ def queryServerPool(businessDate: str) -> str:
 
 
 def get_rates_threaded_pool(startDateStr: str) -> list[str]:
+    """ create multiple threads to with each thread getting 
+    information from server for one date"""
     startDate = datetime.strptime(startDateStr, DATE_FORMAT).date()
     endDate = startDate + timedelta(LOOKAHEAD_DAYS)
     with ThreadPoolExecutor() as excecutor:
@@ -39,6 +41,8 @@ def queryServerThread(businessDate: str, responseContentList: list[str]) -> str:
 
 
 def get_rates_threaded(startDateStr: str) -> list[str]:
+    """ create multiple threads to with each thread getting 
+    information from server for one date"""
     startDate = datetime.strptime(startDateStr, DATE_FORMAT).date()
     endDate = startDate + timedelta(LOOKAHEAD_DAYS)
 
@@ -58,6 +62,7 @@ def get_rates_threaded(startDateStr: str) -> list[str]:
 
 
 def get_rates(startDateStr: str) -> list[str]:
+    """single thread"""
     startDate = datetime.strptime(startDateStr, DATE_FORMAT).date()
     endDate = startDate + timedelta(LOOKAHEAD_DAYS)
     responseContentList = list(map(lambda x: queryServerPool(x),

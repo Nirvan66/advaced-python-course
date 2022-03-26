@@ -22,8 +22,11 @@ platformdirs==2.5.1
 pycodestyle==2.8.0
 pylint==2.12.2
 PyMeeus==0.5.11
+pyodbc==4.0.32
+PySide6==6.2.4
 python-dateutil==2.8.2
 requests==2.27.1
+shiboken6==6.2.4
 six==1.16.0
 toml==0.10.2
 tomli==2.0.1
